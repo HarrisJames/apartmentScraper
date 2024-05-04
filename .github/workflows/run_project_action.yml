@@ -15,10 +15,8 @@ jobs:
       - name: Install dependencies and Run Program
         run: |
           python -m pip install --upgrade pip
-          pip install pipenv 
-          pip install lxml
-          pip install poetry
-          poetry install --no-interaction --all-extras
-          poetry add requests
+          pip install pipenv
           pipenv install
+          pipenv install lxml
+          pipenv install requests
           pipenv run python3 main.py
