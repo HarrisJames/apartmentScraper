@@ -134,6 +134,7 @@ if __name__ == '__main__':
 
     if len(avenirUnseen) != 0 or len(longfellowUnseen) != 0:
         body = build_body(avenirUnseen, longfellowUnseen)
-        print(body)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
         send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
+    else:
+        print("Checked but no new apartments, did not send message.")
