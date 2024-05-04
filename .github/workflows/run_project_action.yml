@@ -18,6 +18,7 @@ jobs:
           pip install pipenv 
           pip install lxml
           pip install poetry
+          poetry install --no-interaction --all-extras
           poetry add requests
           pipenv install
           pipenv run python3 main.py
