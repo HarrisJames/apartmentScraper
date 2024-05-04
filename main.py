@@ -1,6 +1,8 @@
 # This is a sample Python script.
 import requests
 from lxml import html
+import smtplib
+from email.mime.text import MIMEText
 
 
 # Press ⌃R to execute it or replace it with your code.
@@ -12,7 +14,7 @@ class Apartment:
         if from_file:
             self.bed = int(values[0])
             self.bath = float(values[2])
-            self.price = float(values[5].replace("$", ""))
+            self.price = int(values[5].replace("$", ""))
             self.sqft = int(values[6])
             self.floor = int(values[9])
             self.available = values[12]
@@ -79,9 +81,36 @@ def readFromFile(file):
     f.close()
     return list
 
+def send_email(subject, body, sender, recipients, password):
+    msg = MIMEText(body, 'html')
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = recipients
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
+       smtp_server.login(sender, password)
+       smtp_server.sendmail(sender, recipients, msg.as_string())
+    print("Message sent!")
+
+def build_body(avenirUnseen, longfellowUnseen):
+    result = ""
+    if len(avenirUnseen):
+        result += "New Avenir Apartments:<br>"
+        for apt in avenirUnseen:
+            result += str(apt) + "<br>"
+        result += '<a href="https://www.equityapartments.com/boston/north-end/avenir-apartments##unit-availability-tile">Avenir Apartments</a><br><br>'
+    if len(longfellowUnseen):
+        result += "New Longfellow Apartments:<br>"
+        for apt in longfellowUnseen:
+            result += str(apt) + "<br>"
+        result += '<a href="https://www.equityapartments.com/boston/west-end/the-towers-at-longfellow-apartments##unit-availability-tile">Longfellow Apartments</a><br>'
+    return result
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    senderEmail = 'bostonaparmentbot@gmail.com'
+    jamesEmail = "jamestown1277@yahoo.com"
+    karliEmail = "karli.d.rodriguez@gmail.com"
+    password = 'bgwa oruf kgpg hemo'
     avenirApts = available_list(
         'https://www.equityapartments.com/boston/north-end/avenir-apartments?mkwid=_dc&pcrid=&pkw=&pmt=&utm_source=google&utm_medium=cpc&utm_term=&utm_campaign=&utm_group=&gclsrc=aw.ds&&utm_source=google&utm_medium=cpc&utm_campaign=Avenir_Pmax&gad_source=1&gclid=Cj0KCQjwudexBhDKARIsAI-GWYVr_J6V1U4InujmNOjH3nn3nONK8sJ_oOaLXVVrkmsYZ2S5gXxDWRUaAhPeEALw_wcB#%23unit-availability-tile')
     longfellowApts = available_list(
@@ -90,14 +119,21 @@ if __name__ == '__main__':
     avenirSeen = readFromFile('avenirApts.txt')
     longfellowSeen = readFromFile('longfellow.txt')
 
-    print("New Avenir Apartments:")
+    avenirUnseen = []
+    longfellowUnseen = []
+
     for apt in avenirApts:
         if apt not in avenirSeen:
-            print(apt)
-    print("\nNew Longfellow Apartments:")
+            avenirUnseen.append(apt)
     for apt in longfellowApts:
         if apt not in longfellowSeen:
-            print(apt)
+            longfellowUnseen.append(apt)
 
     writeToFile(avenirApts, "avenirApts.txt", "Avenir")
     writeToFile(longfellowApts, "longfellow.txt", "Longfellow")
+
+    if len(avenirUnseen) != 0 or len(longfellowUnseen) != 0:
+        body = build_body(avenirUnseen, longfellowUnseen)
+        print(body)
+        send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
+        send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
