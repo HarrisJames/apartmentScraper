@@ -1,9 +1,8 @@
 name: run project
 
-on: 
-  schedule:
-    - cron: '00 19 * * *'
-
+on: push
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,3 +21,9 @@ jobs:
           pipenv install lxml
           pipenv install requests
           pipenv run python3 main.py
+      - name: Commit report
+        run: |
+          git config --global user.name 'HarrisJames'
+          git config --global user.email 'jameswha@usc.edu'
+          git commit -am "Changes made by run"
+          git push
