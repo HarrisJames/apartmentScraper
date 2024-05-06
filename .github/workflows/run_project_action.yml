@@ -2,7 +2,7 @@ name: run project
 
 on: 
   schedule:
-    - cron: '00 * * * *'
+    - cron: '00 10-24 * * *'
 permissions:
   contents: write
 jobs:
@@ -27,5 +27,5 @@ jobs:
         run: |
           git config --global user.name 'HarrisJames'
           git config --global user.email 'jameswha@usc.edu'
-          git commit -am "Changes made by run"
+          git commit -am "Changes made by run" || exit 0
           git push
