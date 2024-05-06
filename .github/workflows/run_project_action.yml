@@ -1,6 +1,8 @@
 name: run project
 
-on: push
+on: 
+  schedule:
+    - cron: '00 * * * *'
 permissions:
   contents: write
 jobs:
