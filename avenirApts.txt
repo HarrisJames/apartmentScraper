@@ -1,5 +1,3 @@
 Avenir Apartments:
-	1 bed 1.0 bath for $3095 663 sqft on 4 floor, available 5/8/2024
-	1 bed 1.0 bath for $3625 993 sqft on 4 floor, available 5/31/2024
-	1 bed 2.0 bath for $3920 1133 sqft on 2 floor, available 5/7/2024
-	1 bed 2.0 bath for $3920 1133 sqft on 2 floor, available 6/6/2024
+	1 bed 1.0 bath for $3285 663 sqft on 4 floor, available 5/8/2024
+	1 bed 1.0 bath for $3815 993 sqft on 4 floor, available 5/31/2024
