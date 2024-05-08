@@ -1,9 +1,8 @@
 Longfellow Apartments:
-	1 bed 1.0 bath for $3360 924 sqft on 11 floor, available 6/25/2024
-	1 bed 1.0 bath for $3500 924 sqft on 17 floor, available 6/14/2024
-	1 bed 1.0 bath for $3575 1010 sqft on 18 floor, available 7/9/2024
-	1 bed 1.0 bath for $3655 924 sqft on 9 floor, available 9/21/2024
-	1 bed 1.0 bath for $3670 924 sqft on 31 floor, available 5/17/2024
-	1 bed 1.0 bath for $3755 1010 sqft on 4 floor, available 7/24/2024
-	1 bed 1.0 bath for $3835 924 sqft on 17 floor, available 7/11/2024
-	1 bed 1.0 bath for $3960 924 sqft on 23 floor, available 5/7/2024
+	1 bed 1.0 bath for $3550 924 sqft on 17 floor, available 6/14/2024
+	1 bed 1.0 bath for $3590 924 sqft on 31 floor, available 5/17/2024
+	1 bed 1.0 bath for $3665 1010 sqft on 18 floor, available 7/9/2024
+	1 bed 1.0 bath for $3705 924 sqft on 9 floor, available 9/21/2024
+	1 bed 1.0 bath for $3850 1010 sqft on 4 floor, available 7/24/2024
+	1 bed 1.0 bath for $3880 924 sqft on 23 floor, available 5/8/2024
+	1 bed 1.0 bath for $3915 924 sqft on 17 floor, available 7/11/2024
