@@ -51,14 +51,14 @@ def make_request(url):
     return r
 
 
-def available_list(url):
+def available_list(url, max_price):
     response = make_request(url)
     tree = html.fromstring(response.content)
     classes = tree.find_class('col-xs-4 specs')
     list = []
     for item in classes:
         toAdd = Apartment(False, item.text_content().split())
-        if toAdd.bed > 0 and toAdd.price < 4000:
+        if toAdd.bed > 0 and toAdd.price < max_price:
             list.append(toAdd)
     return list
 
@@ -91,7 +91,7 @@ def send_email(subject, body, sender, recipients, password):
        smtp_server.sendmail(sender, recipients, msg.as_string())
     print("Message sent!")
 
-def build_body(avenirUnseen, longfellowUnseen):
+def build_body(avenirUnseen, longfellowUnseen, washingtonUnseen):
     result = ""
     if len(avenirUnseen):
         result += "New Avenir Apartments:<br>"
@@ -103,6 +103,11 @@ def build_body(avenirUnseen, longfellowUnseen):
         for apt in longfellowUnseen:
             result += str(apt) + "<br>"
         result += '<a href="https://www.equityapartments.com/boston/west-end/the-towers-at-longfellow-apartments##unit-availability-tile">Longfellow Apartments</a><br>'
+    if len(washingtonUnseen):
+        result += "New Washington Apartments:<br>"
+        for apt in washingtonUnseen:
+            result += str(apt) + "<br>"
+        result += '<a href="https://www.equityapartments.com/boston/boston-common/660-washington-apartments#/#unit-availability-tile">Washington Apartments</a><br>'
     return result
 
 # Press the green button in the gutter to run the script.
@@ -112,15 +117,19 @@ if __name__ == '__main__':
     karliEmail = "karli.d.rodriguez@gmail.com"
     password = 'bgwa oruf kgpg hemo'
     avenirApts = available_list(
-        'https://www.equityapartments.com/boston/north-end/avenir-apartments?mkwid=_dc&pcrid=&pkw=&pmt=&utm_source=google&utm_medium=cpc&utm_term=&utm_campaign=&utm_group=&gclsrc=aw.ds&&utm_source=google&utm_medium=cpc&utm_campaign=Avenir_Pmax&gad_source=1&gclid=Cj0KCQjwudexBhDKARIsAI-GWYVr_J6V1U4InujmNOjH3nn3nONK8sJ_oOaLXVVrkmsYZ2S5gXxDWRUaAhPeEALw_wcB#%23unit-availability-tile')
+        'https://www.equityapartments.com/boston/north-end/avenir-apartments?mkwid=_dc&pcrid=&pkw=&pmt=&utm_source=google&utm_medium=cpc&utm_term=&utm_campaign=&utm_group=&gclsrc=aw.ds&&utm_source=google&utm_medium=cpc&utm_campaign=Avenir_Pmax&gad_source=1&gclid=Cj0KCQjwudexBhDKARIsAI-GWYVr_J6V1U4InujmNOjH3nn3nONK8sJ_oOaLXVVrkmsYZ2S5gXxDWRUaAhPeEALw_wcB#%23unit-availability-tile', 4000)
     longfellowApts = available_list(
-        'https://www.equityapartments.com/boston/west-end/the-towers-at-longfellow-apartments##unit-availability-tile')
+        'https://www.equityapartments.com/boston/west-end/the-towers-at-longfellow-apartments##unit-availability-tile', 3700)
+    washingtonApts = available_list(
+        'https://www.equityapartments.com/boston/boston-common/660-washington-apartments#/#unit-availability-tile', 3700)
 
     avenirSeen = readFromFile('avenirApts.txt')
     longfellowSeen = readFromFile('longfellow.txt')
+    washingtonSeen = readFromFile('washington.txt')
 
     avenirUnseen = []
     longfellowUnseen = []
+    washingtonUnseen = []
 
     for apt in avenirApts:
         if apt not in avenirSeen:
@@ -128,12 +137,16 @@ if __name__ == '__main__':
     for apt in longfellowApts:
         if apt not in longfellowSeen:
             longfellowUnseen.append(apt)
+    for apt in washingtonApts:
+        if apt not in washingtonSeen:
+            washingtonUnseen.append(apt)
 
     writeToFile(avenirApts, "avenirApts.txt", "Avenir")
     writeToFile(longfellowApts, "longfellow.txt", "Longfellow")
+    writeToFile(washingtonApts, "washington.txt", "Washington")
 
-    if len(avenirUnseen) != 0 or len(longfellowUnseen) != 0:
-        body = build_body(avenirUnseen, longfellowUnseen)
+    if len(avenirUnseen) or len(longfellowUnseen) or len(washingtonUnseen):
+        body = build_body(avenirUnseen, longfellowUnseen, washingtonUnseen)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
         send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
     else:
