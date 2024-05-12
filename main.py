@@ -18,7 +18,13 @@ class Apartment:
             self.price = int(values[5].replace("$", ""))
             self.sqft = int(values[6])
             self.floor = int(values[9])
-            self.available = values[12]
+            datetime_str = values[12]
+            datetime_object = datetime.strptime(datetime_str.strip(), '%m/%d/%Y')
+            now = datetime.now()
+            if now > datetime_object:
+                self.available = 'Now'
+            else:
+                self.available = values[12]
         else:
             self.price = int(values[0].replace(",", "").replace("$", ""))
             self.bed = int(values[3])
