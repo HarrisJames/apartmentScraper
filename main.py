@@ -19,10 +19,13 @@ class Apartment:
             self.sqft = int(values[6])
             self.floor = int(values[9])
             datetime_str = values[12]
-            datetime_object = datetime.strptime(datetime_str.strip(), '%m/%d/%Y')
-            now = datetime.now()
-            if now > datetime_object:
-                self.available = 'Now'
+            if datetime_str != 'Now':
+                datetime_object = datetime.strptime(datetime_str.strip(), '%m/%d/%Y')
+                now = datetime.now()
+                if now > datetime_object:
+                    self.available = 'Now'
+                else:
+                    self.available = values[12]
             else:
                 self.available = values[12]
         else:
