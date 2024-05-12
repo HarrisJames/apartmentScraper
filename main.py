@@ -190,6 +190,6 @@ if __name__ == '__main__':
     if len(avenirUnseen) or len(longfellowUnseen) or len(washingtonUnseen):
         body = build_body(avenirSeen, avenirUnseen, longfellowSeen, longfellowUnseen, washingtonSeen, washingtonUnseen)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
-        #send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
+        send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
     else:
         print("Checked but no new apartments, did not send message.")
