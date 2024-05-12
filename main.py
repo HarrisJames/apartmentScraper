@@ -3,6 +3,7 @@ import requests
 from lxml import html
 import smtplib
 from email.mime.text import MIMEText
+from datetime import datetime
 
 
 # Press ⌃R to execute it or replace it with your code.
@@ -24,7 +25,13 @@ class Apartment:
             self.bath = float(values[6])
             self.sqft = int(values[8])
             self.floor = int(values[12])
-            self.available = values[14]
+            datetime_str = values[14]
+            datetime_object = datetime.strptime(datetime_str.strip(), '%m/%d/%Y')
+            now = datetime.now()
+            if now > datetime_object:
+                self.available = 'Now'
+            else:
+                self.available = values[14]
 
     def __str__(self):
         return "\t" + str(self.bed) + " bed " + str(self.bath) + " bath for $" + str(self.price) + " " + str(
@@ -42,6 +49,20 @@ class Apartment:
         if self.sqft != other.sqft:
             return False
         if self.available != other.available:
+            return False
+        return True
+    def has_price_change(self, other):
+        if self.bath != other.bath:
+            return False
+        if self.bed != other.bed:
+            return False
+        if self.floor != other.floor:
+            return False
+        if self.sqft != other.sqft:
+            return False
+        if self.available != other.available:
+            return False
+        if self.price is other.price:
             return False
         return True
 
@@ -91,22 +112,43 @@ def send_email(subject, body, sender, recipients, password):
        smtp_server.sendmail(sender, recipients, msg.as_string())
     print("Message sent!")
 
-def build_body(avenirUnseen, longfellowUnseen, washingtonUnseen):
+def build_body(avenirSeen, avenirUnseen, longfellowSeen, longfellowUnseen, washingtonSeen, washingtonUnseen):
     result = ""
     if len(avenirUnseen):
-        result += "New Avenir Apartments:<br>"
+        result += "Avenir Apartments:<br>"
+        #price changes
         for apt in avenirUnseen:
-            result += str(apt) + "<br>"
+            found_change = False
+            for seen in avenirSeen:
+                if apt.has_price_change(seen):
+                    result += str(apt) + " price dropped from $" + str(seen.price) + "<br>"
+                    found_change = True
+            if not found_change:
+                result += str(apt) + "<br>"
         result += '<a href="https://www.equityapartments.com/boston/north-end/avenir-apartments##unit-availability-tile">Avenir Apartments</a><br><br>'
     if len(longfellowUnseen):
-        result += "New Longfellow Apartments:<br>"
+        result += "Longfellow Apartments:<br>"
+        # price changes
         for apt in longfellowUnseen:
-            result += str(apt) + "<br>"
+            found_change = False
+            for seen in longfellowSeen:
+                if apt.has_price_change(seen):
+                    result += str(apt) + " price dropped from $" + str(seen.price) + "<br>"
+                    found_change = True
+            if not found_change:
+                result += str(apt) + "<br>"
         result += '<a href="https://www.equityapartments.com/boston/west-end/the-towers-at-longfellow-apartments##unit-availability-tile">Longfellow Apartments</a><br>'
     if len(washingtonUnseen):
-        result += "New Washington Apartments:<br>"
+        result += "Washington Apartments:<br>"
+        # price changes
         for apt in washingtonUnseen:
-            result += str(apt) + "<br>"
+            found_change = False
+            for seen in washingtonSeen:
+                if apt.has_price_change(seen):
+                    result += str(apt) + " price dropped from $" + str(seen.price) + "<br>"
+                    found_change = True
+            if not found_change:
+                result += str(apt) + "<br>"
         result += '<a href="https://www.equityapartments.com/boston/boston-common/660-washington-apartments#/#unit-availability-tile">Washington Apartments</a><br>'
     return result
 
@@ -127,6 +169,10 @@ if __name__ == '__main__':
     longfellowSeen = readFromFile('longfellow.txt')
     washingtonSeen = readFromFile('washington.txt')
 
+    writeToFile(avenirApts, "avenirApts.txt", "Avenir")
+    writeToFile(longfellowApts, "longfellow.txt", "Longfellow")
+    writeToFile(washingtonApts, "washington.txt", "Washington")
+
     avenirUnseen = []
     longfellowUnseen = []
     washingtonUnseen = []
@@ -141,13 +187,9 @@ if __name__ == '__main__':
         if apt not in washingtonSeen:
             washingtonUnseen.append(apt)
 
-    writeToFile(avenirApts, "avenirApts.txt", "Avenir")
-    writeToFile(longfellowApts, "longfellow.txt", "Longfellow")
-    writeToFile(washingtonApts, "washington.txt", "Washington")
-
     if len(avenirUnseen) or len(longfellowUnseen) or len(washingtonUnseen):
-        body = build_body(avenirUnseen, longfellowUnseen, washingtonUnseen)
+        body = build_body(avenirSeen, avenirUnseen, longfellowSeen, longfellowUnseen, washingtonSeen, washingtonUnseen)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
-        send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
+        #send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
     else:
         print("Checked but no new apartments, did not send message.")
