@@ -142,7 +142,7 @@ def build_body(avenirSeen, avenirUnseen, longfellowSeen, longfellowUnseen, washi
             found_change = False
             for seen in longfellowSeen:
                 if apt.has_price_change(seen):
-                    result += str(apt) + " price dropped from $" + str(seen.price) + "<br>"
+                    result += str(apt) + " price changed from $" + str(seen.price) + "<br>"
                     found_change = True
             if not found_change:
                 result += str(apt) + "<br>"
@@ -154,7 +154,7 @@ def build_body(avenirSeen, avenirUnseen, longfellowSeen, longfellowUnseen, washi
             found_change = False
             for seen in washingtonSeen:
                 if apt.has_price_change(seen):
-                    result += str(apt) + " price dropped from $" + str(seen.price) + "<br>"
+                    result += str(apt) + " price changed from $" + str(seen.price) + "<br>"
                     found_change = True
             if not found_change:
                 result += str(apt) + "<br>"
