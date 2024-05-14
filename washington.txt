@@ -1,6 +1,8 @@
 Washington Apartments:
-	1 bed 1.0 bath for $3605 672 sqft on 22 floor, available Now
-	1 bed 1.0 bath for $3630 642 sqft on 23 floor, available 6/28/2024
-	1 bed 1.0 bath for $3645 685 sqft on 13 floor, available 5/28/2024
-	1 bed 1.0 bath for $3685 685 sqft on 28 floor, available 6/21/2024
-	1 bed 1.0 bath for $3685 745 sqft on 21 floor, available 7/6/2024
+	1 bed 1.0 bath for $3590 672 sqft on 22 floor, available Now
+	1 bed 1.0 bath for $3615 642 sqft on 23 floor, available 6/28/2024
+	1 bed 1.0 bath for $3630 685 sqft on 13 floor, available 5/28/2024
+	1 bed 1.0 bath for $3670 685 sqft on 28 floor, available 6/21/2024
+	1 bed 1.0 bath for $3670 745 sqft on 21 floor, available 7/6/2024
+	1 bed 1.0 bath for $3690 745 sqft on 27 floor, available 5/28/2024
+	1 bed 1.0 bath for $3695 715 sqft on 14 floor, available 7/10/2024
