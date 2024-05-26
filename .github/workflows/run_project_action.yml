@@ -2,7 +2,7 @@ name: run project
 
 on: 
   schedule:
-    - cron: '00 0-1,13-23 * * *'
+    - cron: '00 * * * *'
 permissions:
   contents: write
 jobs:
