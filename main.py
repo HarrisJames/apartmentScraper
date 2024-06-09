@@ -141,14 +141,11 @@ def add_unseen(seen, unseen):
             result += str(apt) + "<br>"
     return result
 
-def build_body(avenir_string, washington_string):
+def build_body(avenir_string):
     result = ""
     if len(avenir_string):
         result += '<a href="https://www.equityapartments.com/boston/north-end/avenir-apartments##unit-availability-tile">Avenir Apartments:</a><br><br>'
         result += avenir_string + '<br>'
-    if len(washington_string):
-        result += '<a href="https://www.equityapartments.com/boston/boston-common/660-washington-apartments#/#unit-availability-tile">Washington Apartments:</a><br>'
-        result += washington_string + '<br>'
     return result
 
 # Press the green button in the gutter to run the script.
@@ -159,31 +156,20 @@ if __name__ == '__main__':
     password = 'bgwa oruf kgpg hemo'
     avenirApts = available_list(
         'https://www.equityapartments.com/boston/north-end/avenir-apartments?mkwid=_dc&pcrid=&pkw=&pmt=&utm_source=google&utm_medium=cpc&utm_term=&utm_campaign=&utm_group=&gclsrc=aw.ds&&utm_source=google&utm_medium=cpc&utm_campaign=Avenir_Pmax&gad_source=1&gclid=Cj0KCQjwudexBhDKARIsAI-GWYVr_J6V1U4InujmNOjH3nn3nONK8sJ_oOaLXVVrkmsYZ2S5gXxDWRUaAhPeEALw_wcB#%23unit-availability-tile', 3900)
-    washingtonApts = available_list(
-        'https://www.equityapartments.com/boston/boston-common/660-washington-apartments#/#unit-availability-tile', 3600)
 
     avenirSeen = readFromFile('avenirApts.txt')
-    washingtonSeen = readFromFile('washington.txt')
-
     writeToFile(avenirApts, "avenirApts.txt", "Avenir")
-    writeToFile(washingtonApts, "washington.txt", "Washington")
-
     avenirUnseen = []
-    washingtonUnseen = []
 
     for apt in avenirApts:
         if apt not in avenirSeen:
             avenirUnseen.append(apt)
-    for apt in washingtonApts:
-        if apt not in washingtonSeen:
-            washingtonUnseen.append(apt)
 
     avenir_string = add_unseen(avenirSeen, avenirUnseen)
-    washington_string = add_unseen(washingtonSeen, washingtonUnseen)
 
-    if len(avenir_string) or len(washington_string):
-        body = build_body(avenir_string, washington_string)
+    if len(avenir_string):
+        body = build_body(avenir_string)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
-        send_email("Hello my gorgeous wife, I love you more than anything. Also, new apartment!", body, senderEmail, karliEmail, password)
+        send_email("Hey sexy, there's a new apartment but who cares bc ours is amazing", body, senderEmail, karliEmail, password)
     else:
         print("Checked but no new apartments, did not send message.")
