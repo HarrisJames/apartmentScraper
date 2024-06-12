@@ -167,7 +167,11 @@ if __name__ == '__main__':
 
     avenir_string = add_unseen(avenirSeen, avenirUnseen)
 
-    if len(avenir_string):
+    if len(avenir_string) is 1:
+        body = build_body(avenir_string)
+        send_email("New Apartment Found!", body, senderEmail, jamesEmail, password)
+        send_email("New Apartment Found!", body, senderEmail, karliEmail, password)
+    if len(avenir_string) is 2:
         body = build_body(avenir_string)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
         send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
