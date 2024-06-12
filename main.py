@@ -170,6 +170,6 @@ if __name__ == '__main__':
     if len(avenir_string):
         body = build_body(avenir_string)
         send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
-        send_email("Hey sexy, there's a new apartment but who cares bc ours is amazing", body, senderEmail, karliEmail, password)
+        send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
     else:
         print("Checked but no new apartments, did not send message.")
