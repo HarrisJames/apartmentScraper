@@ -172,7 +172,7 @@ if __name__ == '__main__':
             body = build_body(avenir_string)
             send_email("New Apartment Found!", body, senderEmail, jamesEmail, password)
             send_email("New Apartment Found!", body, senderEmail, karliEmail, password)
-        else if len(avenir_string) >= 2:
+        elif len(avenir_string) >= 2:
             body = build_body(avenir_string)
             send_email("New Apartments Found!", body, senderEmail, jamesEmail, password)
             send_email("New Apartments Found!", body, senderEmail, karliEmail, password)
